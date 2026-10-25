@@ -1,5 +1,50 @@
 ## Artisan
 
+### Cache Laravel's Bootstrap Files During Deployment
+
+For production releases, run Laravel's `optimize` command to cache configuration, events, routes, and views together:
+
+```bash
+php artisan optimize
+```
+
+Use `php artisan optimize:clear` when you need to remove those generated caches. If your deployment runs `config:cache`, call `env()` only from configuration files; after configuration is cached, `.env` is not loaded for application code.
+
+### Create Artisan Commands for Repeatable Maintenance
+
+Turn recurring operational work into a command so it can be run manually, scheduled, logged, and reviewed like the rest of the application:
+
+```bash
+php artisan make:command PruneExpiredInvitations
+```
+
+Give the command a clear signature and description, then keep the task in its `handle()` method:
+
+```php
+protected $signature = 'invitations:prune {--dry-run}';
+protected $description = 'Remove expired, unaccepted invitations';
+
+public function handle(): int
+{
+    $query = Invitation::whereNull('accepted_at')
+        ->where('expires_at', '<', now());
+
+    $count = (clone $query)->count();
+
+    if ($this->option('dry-run')) {
+        $this->info("{$count} expired invitations found.");
+        return self::SUCCESS;
+    }
+
+    $query->delete();
+    $this->info("Removed {$count} expired invitations.");
+
+    return self::SUCCESS;
+}
+```
+
+The dry-run option lets you inspect the expected effect before deleting records. Schedule the command with Laravel's task scheduler when it should run automatically.
+
 ### Artisan command parameters
 
 When creating Artisan command, you can ask the input in variety of ways: `$this->confirm()`, `$this->anticipate()`, `$this->choice()`.

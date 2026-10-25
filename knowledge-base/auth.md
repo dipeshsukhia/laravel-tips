@@ -1,5 +1,60 @@
 ## Auth
 
+### Use Policies for Model-Based Authorization
+
+When permissions depend on a specific model, keep the rules in a policy instead of repeating ownership checks across controllers. Laravel can discover a policy when it follows the usual model and policy naming convention.
+
+Generate a policy with starter methods for a model:
+
+```bash
+php artisan make:policy PostPolicy --model=Post
+```
+
+For example, restrict updates to the post owner:
+
+```php
+public function update(User $user, Post $post): bool
+{
+    return $user->id === $post->user_id;
+}
+```
+
+Then authorize the action at the controller boundary:
+
+```php
+$this->authorize('update', $post);
+```
+
+Policies can also be used from routes, Blade, and the `Gate` facade, keeping the same rule available throughout the application.
+
+### Enable Two-Factor Authentication with Fortify
+
+Laravel Fortify provides a TOTP-based two-factor sign-in flow, including challenge and recovery-code support. Install Fortify and run its published migrations, then add its trait to the authenticatable user model:
+
+```php
+use Laravel\Fortify\TwoFactorAuthenticatable;
+
+class User extends Authenticatable
+{
+    use TwoFactorAuthenticatable;
+}
+```
+
+Enable the feature in `config/fortify.php` and require both code confirmation and password confirmation before changing the setting:
+
+```php
+use Laravel\Fortify\Features;
+
+'features' => [
+    Features::twoFactorAuthentication([
+        'confirm' => true,
+        'confirmPassword' => true,
+    ]),
+],
+```
+
+Build account controls that let users scan the QR code, confirm a valid code, and save recovery codes securely. Do not consider setup complete until the user confirms the authenticator code.
+
 ### Check Multiple Permissions at Once
 
 In addition to `@can` Blade directive, did you know you can check multiple permissions at once with `@canany` directive?

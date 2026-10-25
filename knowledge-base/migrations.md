@@ -58,6 +58,18 @@ Migration name .................................................................
 2019_08_19_000000_create_failed_jobs_table ..................................................... [1] Ran
 ```
 
+### Add Composite Indexes for Common Query Filters
+
+Index columns that appear together in frequent filters, joins, or sort orders after checking the actual query plan. A composite index can help a query that filters orders by account and status, then sorts by creation time:
+
+```php
+Schema::table('orders', function (Blueprint $table) {
+    $table->index(['account_id', 'status', 'created_at']);
+});
+```
+
+Choose the column order to match the queries you need to support, and inspect slow queries with your database's `EXPLAIN` command. Avoid indexing every column: extra indexes use storage and add work to inserts and updates.
+
 ### Create Migration with Spaces
 
 When typing `make:migration` command, you don't necessarily have to use underscore `_` symbol between parts, like `create_transactions_table`. You can put the name into quotes and then use spaces instead of underscores.
