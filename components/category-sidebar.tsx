@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import type { Category } from "@/lib/content";
+import { useSidebar } from "@/components/sidebar-provider";
 
 export function CategorySidebar({ categories, active, activeAll = false }: { categories: Category[]; active?: string; activeAll?: boolean }) {
+  const { isOpen } = useSidebar();
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${isOpen ? "" : " is-collapsed"}`}>
       <p className="sidebar-label">Browse library</p>
       <nav aria-label="Tip categories" className="category-nav">
         <Link className={`nav-link ${activeAll ? "active" : ""}`} href="/all-tips/">

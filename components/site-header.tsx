@@ -1,13 +1,17 @@
 import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SidebarToggle } from "@/components/sidebar-toggle";
 
-export function SiteHeader() {
+export function SiteHeader({ showSidebarToggle = false }: { showSidebarToggle?: boolean }) {
   return (
     <header className="topbar">
-      <Link className="brand" href="/" aria-label="Laravel Tips home">
-        <span className="brand-mark">L</span>
-        <span>Laravel <b>Tips</b></span>
-      </Link>
+      <div className="topbar-leading">
+        {showSidebarToggle && <SidebarToggle />}
+        <Link className="brand" href="/" aria-label="Laravel Tips home">
+          <span className="brand-mark">L</span>
+          <span>Laravel <b>Tips</b></span>
+        </Link>
+      </div>
       <div className="topbar-note"><span className="status-dot" /> A field guide for Laravel developers</div>
       <div className="topbar-actions">
         <ThemeToggle />

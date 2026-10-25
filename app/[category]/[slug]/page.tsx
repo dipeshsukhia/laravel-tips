@@ -29,7 +29,7 @@ export default async function TipPage({ params }: { params: Promise<{ category: 
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader showSidebarToggle />
       <div className="app-shell">
         <CategorySidebar categories={categories} active={category.slug} />
         <main className="main-content inner-page article-page">

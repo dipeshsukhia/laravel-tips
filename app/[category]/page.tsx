@@ -25,7 +25,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader showSidebarToggle />
       <div className="app-shell">
         <CategorySidebar categories={categories} active={category.slug} />
         <main className="main-content inner-page">

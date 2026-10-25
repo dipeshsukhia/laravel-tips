@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BackToTop } from "@/components/back-to-top";
+import { SidebarProvider } from "@/components/sidebar-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" data-theme="dark">
       <body>
-        {children}
+        <SidebarProvider>{children}</SidebarProvider>
         <BackToTop />
       </body>
     </html>

@@ -16,7 +16,7 @@ export default function AllTipsPage() {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader showSidebarToggle />
       <div className="app-shell">
         <CategorySidebar categories={categories} activeAll />
         <main className="main-content inner-page">
