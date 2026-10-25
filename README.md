@@ -21,17 +21,17 @@ Run `npm run build` to export the site into `docs/`. GitHub Pages serves the `ma
 
 ## Categories
 
-- DB Models and Eloquent — 100 tips
-- Models Relations — 36 tips
-- Migrations — 15 tips
-- Views — 20 tips
-- Routing — 33 tips
-- Validation — 24 tips
-- Collections — 8 tips
-- Auth — 7 tips
-- Mail — 7 tips
-- Artisan — 10 tips
-- Factories — 8 tips
-- Log and debug — 8 tips
-- API — 9 tips
-- Other — 73 tips
+- [DB Models and Eloquent](knowledge-base/db-models-and-eloquent.md) — 100 tips
+- [Models Relations](knowledge-base/models-relations.md) — 36 tips
+- [Migrations](knowledge-base/migrations.md) — 15 tips
+- [Views](knowledge-base/views.md) — 20 tips
+- [Routing](knowledge-base/routing.md) — 33 tips
+- [Validation](knowledge-base/validation.md) — 24 tips
+- [Collections](knowledge-base/collections.md) — 8 tips
+- [Auth](knowledge-base/auth.md) — 7 tips
+- [Mail](knowledge-base/mail.md) — 7 tips
+- [Artisan](knowledge-base/artisan.md) — 10 tips
+- [Factories](knowledge-base/factories.md) — 8 tips
+- [Log and debug](knowledge-base/log-and-debug.md) — 8 tips
+- [API](knowledge-base/api.md) — 9 tips
+- [Other](knowledge-base/other.md) — 73 tips
