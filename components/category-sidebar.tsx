@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { Category } from "@/lib/content";
 
-export function CategorySidebar({ categories, active }: { categories: Category[]; active?: string }) {
+export function CategorySidebar({ categories, active, activeAll = false }: { categories: Category[]; active?: string; activeAll?: boolean }) {
   return (
     <aside className="sidebar">
       <p className="sidebar-label">Browse library</p>
       <nav aria-label="Tip categories" className="category-nav">
-        <Link className={`nav-link ${!active ? "active" : ""}`} href="/">
+        <Link className={`nav-link ${activeAll ? "active" : ""}`} href="/all-tips/">
           <span className="nav-icon">⌂</span><span>All tips</span>
         </Link>
         {categories.map((category) => (

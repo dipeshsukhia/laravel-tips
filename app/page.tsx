@@ -2,8 +2,8 @@ import Link from "next/link";
 import { CategorySidebar } from "@/components/category-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { TipExplorer } from "@/components/tip-explorer";
 import { getAllTips, getCategories } from "@/lib/content";
+import { TopicIcon } from "@/components/topic-icon";
 
 export default function HomePage() {
   const categories = getCategories();
@@ -27,20 +27,17 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="browse-section">
-            <div className="section-heading">
-              <div><p className="section-kicker">THE COLLECTION</p><h2>Find your next <em>aha.</em></h2></div>
-              <span className="section-note">Curated for the curious</span>
-            </div>
-            <TipExplorer tips={tips} categories={categories} />
-          </section>
-
           <section className="category-tiles" aria-label="Browse by topic">
-            <div className="section-heading compact-heading"><div><p className="section-kicker">EXPLORE BY TOPIC</p><h2>Where to begin</h2></div><span className="section-note">{categories.length} collections</span></div>
+            <div className="section-heading compact-heading"><div><p className="section-kicker">EXPLORE BY TOPIC</p><h2>Where to begin</h2></div><span className="section-note">{categories.length + 1} collections</span></div>
             <div className="category-grid">
-              {categories.map((category, index) => (
+              <Link className="category-card" href="/all-tips/">
+                <span className="category-card-icon"><TopicIcon topic="all-tips" /></span>
+                <span className="category-card-title">All Tips</span>
+                <span className="category-card-count">{tips.length} tips <span aria-hidden="true">↗</span></span>
+              </Link>
+              {categories.map((category) => (
                 <Link className="category-card" href={`/${category.slug}/`} key={category.slug}>
-                  <span className="category-number">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="category-card-icon"><TopicIcon topic={category.slug} /></span>
                   <span className="category-card-title">{category.title}</span>
                   <span className="category-card-count">{category.tips.length} tips <span aria-hidden="true">↗</span></span>
                 </Link>
