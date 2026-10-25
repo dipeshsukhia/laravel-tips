@@ -28,8 +28,7 @@ button, input, select { font: inherit; }
 .sidebar-toggle { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border: 1px solid #dfe7e1; border-radius: 8px; color: #526158; background: #fff; cursor: pointer; transition: color .15s, background .15s, border-color .15s; }
 .sidebar-toggle:hover { color: #15593b; background: #f0f7f1; border-color: #b7d4bf; }
 .sidebar-toggle:focus-visible { outline: 2px solid #5ca878; outline-offset: 3px; }
-.sidebar-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-.sidebar-toggle[aria-expanded="true"] .sidebar-desktop-icon path { transform: rotate(180deg); transform-origin: 14px 11px; }
+.sidebar-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .sidebar-mobile-icon { display: none; }
 .sidebar-backdrop { display: none; }
 .topbar-actions { display: flex; align-items: center; gap: 9px; }
