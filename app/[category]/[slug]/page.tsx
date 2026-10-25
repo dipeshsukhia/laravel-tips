@@ -14,7 +14,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { category, slug } = await params;
   const tip = getTip(category, slug);
-  return tip ? { title: tip.title, description: tip.searchableText.slice(0, 155) } : {};
+  return tip ? { title: tip.title, description: tip.description } : {};
 }
 
 export default async function TipPage({ params }: { params: Promise<{ category: string; slug: string }> }) {

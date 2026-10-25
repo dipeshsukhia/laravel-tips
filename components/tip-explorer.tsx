@@ -4,12 +4,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category, Tip } from "@/lib/content";
 
-function excerpt(text: string, maxCharacters: number) {
-  const characters = Array.from(text);
-  const truncated = characters.slice(0, maxCharacters).join("");
-  return characters.length > maxCharacters ? `${truncated}…` : truncated;
-}
-
 export function TipExplorer({
   tips,
   categories,
@@ -62,7 +56,7 @@ export function TipExplorer({
               <span className="tip-index">{String(index + 1).padStart(2, "0")}</span>
               <span className="tip-row-content">
                 <span className="tip-row-title">{tip.title}</span>
-                <span className="tip-row-excerpt">{excerpt(tip.searchableText, 150)}</span>
+                <span className="tip-row-excerpt">{tip.description}</span>
               </span>
               <span className="tip-row-category">{tip.category}</span>
               <span className="tip-arrow" aria-hidden="true">↗</span>

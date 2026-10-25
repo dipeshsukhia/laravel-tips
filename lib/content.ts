@@ -6,6 +6,7 @@ export type Tip = {
   slug: string;
   category: string;
   categorySlug: string;
+  description: string;
   markdown: string;
   searchableText: string;
 };
@@ -54,6 +55,33 @@ function searchableText(markdown: string) {
     .trim();
 }
 
+function professionalTitle(value: string) {
+  const smallWords = new Set(["a", "an", "and", "as", "at", "by", "for", "from", "in", "into", "of", "on", "or", "the", "to", "with", "without"]);
+  return value
+    .split(/\s+/)
+    .map((part, index, parts) => {
+      const word = part.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
+      if (!word) return part;
+      const lower = word.toLowerCase();
+      const isEdge = index === 0 || index === parts.length - 1;
+      const formatted = !isEdge && smallWords.has(lower) ? lower : lower.charAt(0).toUpperCase() + lower.slice(1);
+      return part.replace(word, formatted);
+    })
+    .join(" ")
+    .replace(/\bApi\b/g, "API")
+    .replace(/\bSql\b/g, "SQL")
+    .replace(/\bUrl\b/g, "URL")
+    .replace(/\bJson\b/g, "JSON")
+    .replace(/\bHttp\b/g, "HTTP")
+    .replace(/\bPhp\b/g, "PHP")
+    .replace(/\bBlade-X\b/gi, "Blade X");
+}
+
+function professionalDescription(title: string, category: string) {
+  const categoryName = category.toLowerCase() === "api" ? "API" : category.toLowerCase();
+  return `This ${categoryName} guide covers ${title} in Laravel, with clear implementation guidance and practical examples for your application.`;
+}
+
 function isTipHeading(line: string) {
   return /^###\s+(.+?)\s*$/.exec(line);
 }
@@ -78,7 +106,8 @@ function readCategory(filename: string): Category {
     const slug = tips.some((tip) => tip.slug === baseSlug)
       ? `${baseSlug}-${tips.length + 1}`
       : baseSlug;
-    tips.push({ title: currentTitle, slug, category: title, categorySlug, markdown, searchableText: searchableText(markdown) });
+    const polishedTitle = professionalTitle(currentTitle);
+    tips.push({ title: polishedTitle, slug, category: title, categorySlug, description: professionalDescription(polishedTitle, title), markdown, searchableText: searchableText(markdown) });
   };
 
   for (const line of lines) {
