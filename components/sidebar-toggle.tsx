@@ -16,12 +16,7 @@ export function SidebarToggle() {
       title={label}
       onClick={toggle}
     >
-      <svg className="sidebar-desktop-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <rect x="3" y="4" width="18" height="16" rx="2" />
-        <path d="M9 4v16" />
-        <path d={isOpen ? "M16 9l-3 3 3 3" : "M13 9l3 3-3 3"} />
-      </svg>
-      <svg className="sidebar-mobile-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <svg className="sidebar-menu-icon" viewBox="0 0 24 24" aria-hidden="true">
         {isOpen ? <path d="M6 6 18 18M18 6 6 18" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
       </svg>
     </button>

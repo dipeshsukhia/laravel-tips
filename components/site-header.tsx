@@ -8,7 +8,7 @@ export function SiteHeader({ showSidebarToggle = false }: { showSidebarToggle?: 
       <div className="topbar-leading">
         {showSidebarToggle && <SidebarToggle />}
         <Link className="brand" href="/" aria-label="Laravel Tips home">
-          <span className="brand-mark"><img src="https://laravel.com/img/logomark.min.svg" alt="" /></span>
+          <span className="brand-mark"><img src="/laravel-tips/laravel-mark.svg" alt="" /></span>
           <span>Laravel <b>Tips</b></span>
         </Link>
       </div>
