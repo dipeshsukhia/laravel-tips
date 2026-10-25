@@ -46,10 +46,10 @@ $users = User::factory()
 When using factories with relationships, Laravel also provides magic methods.
 
 ```php
-// magic factory relationship methods
+// Use Laravel factory relationship helpers:
 User::factory()->hasPosts(3)->create();
 
-// instead of
+// Previous approach:
 User::factory()->has(Post::factory()->count(3))->create();
 ```
 

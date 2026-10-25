@@ -16,7 +16,7 @@ if($today){
     $query->where('created_at', $today);
 }
 
-// lets get active and inactive products
+// Retrieve active and inactive products.
 $active_products = $query->where('status', 1)->get(); // this line modified the $query object variable
 $inactive_products = $query->where('status', 0)->get(); // so here we will not find any inactive products
 ```
@@ -37,11 +37,11 @@ $inactive_products = $query->clone()->where('status', 0)->get(); // so we will g
 You can pass an array of bindings to most raw query methods to avoid SQL injection.
 
 ```php
-// This is vulnerable to SQL injection
+// This query is vulnerable to SQL injection.
 $fullname = request('full_name');
 User::whereRaw("CONCAT(first_name, last_name) = $fullName")->get();
 
-// Use bindings
+// Use parameter bindings to prevent SQL injection.
 User::whereRaw("CONCAT(first_name, last_name) = ?", [request('full_name')])->get();
 ```
 
@@ -95,7 +95,7 @@ $images = Image::all();
 // You'll end up with missing videos
 $allMedia = $videos->merge($images);
 
-// call `toBase()` in your eloquent collection to use the base merge method instead
+// Call toBase() to use the base collection's merge method.
 $allMedia = $videos->toBase()->merge($images);
 ```
 
@@ -187,10 +187,10 @@ $fullname = UserModel::where('id', $id)
 Instead of using the 𝘄𝗵𝗲𝗿𝗲𝗜𝗻() method to load a large range of data when the targeted value is an integer, use 𝘄𝗵𝗲𝗿𝗲𝗜𝗻𝘁𝗲𝗴𝗲𝗿𝗜𝗻𝗥𝗮𝘄() which is faster than 𝘄𝗵𝗲𝗿𝗲𝗜𝗻().
 
 ```php
-// instead of using whereIn
+// Instead of using whereIn():
 Product::whereIn('id', range(1, 50))->get();
 
-// use WhereIntegerInRaw method for faster loading
+// Use whereIntegerInRaw() to improve query performance.
 Product::whereIntegerInRaw('id', range(1, 50))->get();
 ```
 
@@ -199,7 +199,7 @@ Product::whereIntegerInRaw('id', range(1, 50))->get();
 Use 𝘄𝗵𝗲𝗿𝗲𝗕𝗲𝘁𝘄𝗲𝗲𝗻 to load records between two timestamps, you can pass the fallback value using the null coalescing operator (??).
 
 ```php
-// Load tasks completed between two timestamps
+// Retrieve tasks completed within the specified time range.
 Task::whereBetween('completed_at', [
     $request->from ?? '2023-01-01',
     $request->to ??  today()->toDateTimeString(),
@@ -213,7 +213,7 @@ You can pass a raw query to order your results.
 For example, sorting tasks by how long before the due date they were completed.
 
 ```php
-// Sort tasks by the task was completed before the due date
+// Sort tasks by whether they were completed before the due date.
 $tasks = Task::query()
     ->whereNotNull('completed_at')
     ->orderByRaw('due_at - completed_at DESC')
@@ -390,9 +390,9 @@ $users = User::registeredWithinDays(30)->active()->get();
 If you're performing `whereDate()` and check today's records, you can use Carbon's `now()` and it will automatically be transformed to date. No need to do `->toDateString()`.
 
 ```php
-// Instead of
+// Previous approach:
 $todayUsers = User::whereDate('created_at', now()->toDateString())->get();
-// No need to convert, just use now()
+// Use now() directly; no conversion is required.
 $todayUsers = User::whereDate('created_at', now())->get();
 ```
 
@@ -446,15 +446,15 @@ class User extends Model
 Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found, not just one Model:
 
 ```php
-// Will return Eloquent Model
+// Returns a single Eloquent model.
 $user = User::find(1);
-// Will return Eloquent Collection
+// Returns an Eloquent collection.
 $users = User::find([1,2,3]);
 ```
 
 ```php
 return Product::whereIn('id', $this->productIDs)->get();
-// You can do this
+// Recommended approach:
 return Product::find($this->productIDs)
 ```
 
@@ -462,7 +462,7 @@ Incase of integer, use `whereIn` with limited data range only instead use `where
 
 ```php
 Product::whereIn('id', range(1, 50))->get();
-// You can do this
+// Recommended approach:
 Product::whereIntegerInRaw('id', range(1, 50))->get();
 ```
 
@@ -471,9 +471,9 @@ Product::whereIntegerInRaw('id', range(1, 50))->get();
 Eloquent method `find()` may accept multiple parameters, and then it returns a Collection of all records found with specified columns, not all columns of model:
 
 ```php
-// Will return Eloquent Model with first_name and email only
+// Returns one Eloquent model with only first_name and email selected.
 $user = User::find(1, ['first_name', 'email']);
-// Will return Eloquent Collection with first_name and email only
+// Returns an Eloquent collection with only first_name and email selected.
 $users = User::find([1,2,3], ['first_name', 'email']);
 ```
 
@@ -643,7 +643,7 @@ DB::transaction(function () {
 If you need to check if the record exists, and then update it, or create a new record otherwise, you can do it in one sentence - use Eloquent method `updateOrCreate()`:
 
 ```php
-// Instead of this
+// Previous approach:
 $flight = Flight::where('departure', 'Oakland')
     ->where('destination', 'San Diego')
     ->first();
@@ -657,7 +657,7 @@ if ($flight) {
         'discounted' => 1
     ]);
 }
-// Do it in ONE sentence
+// Express the condition in a single query.
 $flight = Flight::updateOrCreate(
     ['departure' => 'Oakland', 'destination' => 'San Diego'],
     ['price' => 99, 'discounted' => 1]
@@ -671,7 +671,7 @@ If you have cache key like `posts` that gives collection, and you want to forget
 ```php
 class Post extends Model
 {
-    // Forget cache key on storing or updating
+    // Clear the cache key when the record is stored or updated.
     public static function boot()
     {
         parent::boot();
@@ -970,7 +970,7 @@ if ( ! $model->where('status', 'pending')->exists() ) {
 }
 
 // But I find the ! in the statement above easily missed. The
-// doesntExist() method makes this statement even clearer.
+// doesntExist() makes the condition easier to read.
 if ( $model->where('status', 'pending')->doesntExist() ) {
 }
 ```
@@ -996,8 +996,8 @@ class Task extends  Model
 ```php
 trait MultiTenantModelTrait
 {
-    // This method's name is boot[TraitName]
-    // It will be auto-called as boot() of Transaction/Task
+    // Name the method boot[TraitName].
+    // Laravel calls it automatically when booting the model that uses the trait.
     public static function bootMultiTenantModelTrait()
     {
         static::creating(function ($model) {
@@ -1019,11 +1019,11 @@ One returns a strict true/false boolean, the other returns an integer which you 
 public function index()
 {
     if (\App\Models\User::exists()) {
-        // returns boolean true or false if the table has any saved rows
+        // Returns true when the table contains at least one row.
     }
 
     if (\App\Models\User::count()) {
-        // returns the count of rows in the table
+        // Returns the total number of rows in the table.
     }
 }
 ```
@@ -1031,17 +1031,17 @@ public function index()
 ### How to prevent “property of non-object” error
 
 ```php
-// BelongsTo Default Models
-// Let's say you have Post belonging to Author and then Blade code:
+// Provide a default model for a belongsTo relationship.
+// For example, a post may belong to an author and be displayed in Blade:
 $post->author->name;
 
-// Of course, you can prevent it like this:
+// You can guard against a missing author with this check:
 $post->author->name ?? ''
 // or
 @$post->author->name
 
-// But you can do it on Eloquent relationship level:
-// this relation will return an empty App\Author model if no author is attached to the post
+// Define the fallback directly on the Eloquent relationship:
+// The relationship returns an empty Author model when the post has no author.
 public function author() {
     return $this->belongsTo(Author::class)->withDefault();
 }
@@ -1317,13 +1317,13 @@ class Post extends Model
     }
 }
 
-// Instead of eager loading all users...
+// Avoid eager-loading every user when only a name is needed.
 $posts = Post::with('user')->get();
 
-// You can add a subselect to only retrieve the user's name...
+// Select only the related user name with a subquery.
 $posts = Post::withAggregate('user', 'name')->get();
 
-// This will add a 'user_name' attribute to the Post instance:
+// This adds a user_name attribute to each Post model:
 $posts->first()->user_name;
 ```
 
@@ -1371,16 +1371,16 @@ To retrieve the Query Builder after filtering the results: you can use `->toQuer
 The method internally use the first model of the collection and a `whereKey` comparison on the Collection models.
 
 ```php
-// Retrieve all logged_in users
+// Retrieve all logged-in users.
 $loggedInUsers = User::where('logged_in', true)->get();
 
-// Filter them using a Collection method or php filtering
+// Filter the results with a collection method or PHP callback.
 $nthUsers = $loggedInUsers->nth(3);
 
-// You can't do this on the collection
+// A collection cannot perform this database query.
 $nthUsers->update(/* ... */);
 
-// But you can retrieve the Builder using ->toQuery()
+// Convert the collection back to a query builder with toQuery().
 if ($nthUsers->isNotEmpty()) {
     $nthUsers->toQuery()->update(/* ... */);
 }
@@ -1433,14 +1433,14 @@ public function bestBooks()
 If you have a DB transaction and want to return its result, there are at least two ways, see the example
 
 ```php
-// 1. You can pass the parameter by reference
+// Pass the parameter by reference.
 $invoice = NULL;
 DB::transaction(function () use (&$invoice) {
     $invoice = Invoice::create(...);
     $invoice->items()->attach(...);
 })
 
-// 2. Or shorter: just return trasaction result
+// Alternatively, return the transaction result directly.
 $invoice = DB::transaction(function () {
     $invoice = Invoice::create(...);
     $invoice->items()->attach(...);
@@ -1483,10 +1483,10 @@ $bikes = Bike::where('athlete_id', $this->athleteId)
 You can use `value()` method to get single column's value from the first result of a query
 
 ```php
-// Instead of
+// Previous approach:
 Integration::where('name', 'foo')->first()->active;
 
-// You can use
+// Recommended approach:
 Integration::where('name', 'foo')->value('active');
 
 // or this to throw an exception if no records found
@@ -1603,7 +1603,7 @@ $book = Book::whereCount('authors')
             ->orderBy('authors_count', 'DESC')
             ->having('modules_count', '>', 10)
             ->firstOr(function() {
-                // The Sky is the Limit ...
+                // Add any required follow-up actions here.
 
                 // You can perform any action here
             });
@@ -1713,7 +1713,7 @@ Statistic::where('user_id', 4)->value('post_count');
 Laravel you can pass an array to the where method.
 
 ```php
-// Instead of this
+// Previous approach:
 JobPost::where('company', 'laravel')
         ->where('job_type', 'full time')
         ->get();
@@ -1852,9 +1852,9 @@ public function hash(): Attribute
 In Laravel 9.8.0, the `scalar()` method was added that allows you to retrieve the first column of the first row from the query result.
 
 ```php
-// Before
+// Previous approach:
 DB::selectOne("SELECT COUNT(CASE WHEN food = 'burger' THEN 1 END) AS burgers FROM menu_items;")->burgers
-// Now
+// Updated approach:
 DB::scalar("SELECT COUNT(CASE WHEN food = 'burger' THEN 1 END) FROM menu_items;")
 ```
 
@@ -1971,7 +1971,7 @@ class CategoryController extends Controller
 {
     public function example(Request $request)
     {
-        // instead of
+        // Previous approach:
         $category = Category::where('name', $request->name)->first();
 
         if (!$category) {

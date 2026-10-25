@@ -39,8 +39,8 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
 
-            // You can add any Listener class here
-            // With handle() method inside of that class
+            // Register any listener class here.
+            // Each listener should define a handle() method.
         ],
     ];
 ```
@@ -79,14 +79,14 @@ protected function password(): Attribute
 If you've defined your Gates but want to override all permissions for SUPER ADMIN user, to give that superadmin ALL permissions, you can intercept gates with `Gate::before()` statement, in `AuthServiceProvider.php` file.
 
 ```php
-// Intercept any Gate and check if it's super admin
+// Intercept each Gate check and allow super administrators.
 Gate::before(function($user, $ability) {
     if ($user->is_super_admin == 1) {
         return true;
     }
 });
 
-// Or if you use some permissions package...
+// For applications using a permissions package:
 Gate::before(function($user, $ability) {
     if ($user->hasPermission('root')) {
         return true;

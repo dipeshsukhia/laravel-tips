@@ -76,11 +76,11 @@ class EmployeeResource extends JsonResource
 The `bearerToken()` function is very handy when you are working with apis & want to access the token from Authorization header.
 
 ```php
-// Don't parse API headers manually like this:
+// Avoid parsing API headers manually:
 $tokenWithBearer = $request->header('Authorization');
 $token = substr($tokenWithBearer, 7);
 
-//Do this instead:
+// Use Laravel's request helpers instead:
 $token = $request->bearerToken();
 ```
 
@@ -109,13 +109,13 @@ we do the same for multiple columns (e.g., ?sort=name,-weight)
 ```php
 // Handles ?sort=name,-weight
 Route::get('dogs', function (Request $request) {
-    // Grab the query parameter and turn it into an array exploded by ,
+    // Retrieve the query parameter and split it into an array.
     $sorts = explode(',', $request->input('sort', ''));
 
-    // Create a query
+    // Initialize the query.
     $query = Dog::query();
 
-    // Add the sorts one by one
+    // Apply each requested sort.
     foreach ($sorts as $sortColumn) {
         $sortDirection = Str::startsWith($sortColumn, '-') ? 'desc' : 'asc';
         $sortColumn = ltrim($sortColumn, '-');
@@ -123,7 +123,7 @@ Route::get('dogs', function (Request $request) {
         $query->orderBy($sortColumn, $sortDirection);
     }
 
-    // Return
+    // Return the query results.
     return $query->paginate(20);
 });
 ```
@@ -256,7 +256,7 @@ $this->routes(function () {
         ->group(base_path('routes/API/v1.php'));
         }
 
-    //for v2
+    // Register the routes for API version 2.
      Route::prefix('api/v2')
             ->middleware('api')
             ->namespace($this->ApiNamespace.'\\V2')
@@ -280,7 +280,7 @@ protected string $ApiNamespace = 'App\Http\Controllers\Api';
 Inside the method map, add the following code:
 
 ```php
-// remove this $this->mapApiRoutes();
+// Remove this call to $this->mapApiRoutes().
     $this->mapApiV1Routes();
     $this->mapApiV2Routes();
 ```

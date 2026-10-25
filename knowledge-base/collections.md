@@ -46,16 +46,16 @@ echo 'Total budget: ' . $users->sum('budget');
 How to calculate the sum of all records when you have only the PAGINATED collection? Do the calculation BEFORE the pagination, but from the same query.
 
 ```php
-// How to get sum of post_views with pagination?
+// Calculate the total post views alongside pagination.
 $posts = Post::paginate(10);
-// This will be only for page 1, not ALL posts
+// This sums only the records on the current page.
 $sum = $posts->sum('post_views');
 
-// Do this with Query Builder
+// Use the query builder to calculate the total first.
 $query = Post::query();
-// Calculate sum
+// Calculate the total before pagination.
 $sum = $query->sum('post_views');
-// And then do the pagination from the same query
+// Paginate the same query after calculating the total.
 $posts = $query->paginate(10);
 ```
 
@@ -103,17 +103,17 @@ In Laravel 8.81 `getOrPut` method to Collections that simplifies the use-case wh
 
 ```php
 $key = 'name';
-// Still valid
+// The existing approach remains valid:
 if ($this->collection->has($key) === false) {
     $this->collection->put($key, ...);
 }
 
 return $this->collection->get($key);
 
-// Using the `getOrPut()` method with closure
+// Use getOrPut() with a closure:
 return $this->collection->getOrPut($key, fn() => ...);
 
-// Or pass a fixed value
+// Alternatively, pass a fixed value:
 return $this->collection->getOrPut($key, $value='teacoders');
 ```
 
@@ -125,5 +125,5 @@ The static times method creates a new collection by invoking the given closure a
 Collection::times(7, function ($number) {
     return now()->addDays($number)->format('d-m-Y');
 });
-// Output: [01-04-2022, 02-04-2022, ..., 07-04-2022]
+// Example output: [01-04-2022, 02-04-2022, ..., 07-04-2022].
 ```

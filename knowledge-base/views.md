@@ -77,7 +77,7 @@ You can check if View file exists before actually loading it.
 
 ```php
 if (view()->exists('custom.page')) {
- // Load the view
+ // Render the view.
 }
 ```
 
@@ -96,9 +96,9 @@ If you want to create a specific error page for some HTTP code, like 503 - just 
 If you want route to just show a certain view, don't create a Controller method, just use `Route::view()` function.
 
 ```php
-// Instead of this
+// Previous approach:
 Route::get('about', 'TextsController@about');
-// And this
+// Alternative approach:
 class TextsController extends Controller
 {
     public function about()
@@ -106,7 +106,7 @@ class TextsController extends Controller
         return view('texts.about');
     }
 }
-// Do this
+// Recommended approach:
 Route::view('about', 'texts.about');
 ```
 
@@ -247,7 +247,7 @@ Did you know that if you pass colon (:) before the component parameter, you can 
 ```blade
 <x-navbar title="{{ $title }}"/>
 
-// you can do instead
+// Use this approach instead:
 
 <x-navbar :title="$title"/>
 ```
@@ -313,7 +313,7 @@ class NavLink extends Component
 Did you know the Blade `@each` directive can help cleanup loops in your templates?
 
 ```blade
-// good
+// Current approach:
 @foreach($item in $items)
     <div>
         <p>Name: {{ $item->name }}
@@ -321,7 +321,7 @@ Did you know the Blade `@each` directive can help cleanup loops in your template
     </div>
 @endforeach
 
-// better (HTML extracted into partial)
+// Improved approach with the HTML extracted into a partial:
 @each('partials.item', $items, 'item')
 ```
 
@@ -332,7 +332,7 @@ A simple way to tidy up your Blade views!
 Use the `forelse loop`, instead of a `foreach loop` nested in an if statement
 
 ```blade
-<!-- if/loop combination -->
+<!-- Combine the condition and loop. -->
 @if ($orders->count())
     @foreach($orders as $order)
         <div>
@@ -343,7 +343,7 @@ Use the `forelse loop`, instead of a `foreach loop` nested in an if statement
     <p>You haven't placed any orders yet.</p>
 @endif
 
-<!-- Forelse alternative -->
+<!-- Use @forelse as an alternative. -->
 @forelse($orders as $order)
     <div>
         {{ $order->id }}

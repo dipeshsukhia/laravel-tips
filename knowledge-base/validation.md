@@ -271,7 +271,7 @@ $validator->sometimes('coupon', 'prohibited', function (Fluent $data) {
     return collect($data->items)->sum('quantity') < 5;
 });
 
-// throws a ValidationException as the quantity provided is not enough
+// Throws a ValidationException when the provided quantity is insufficient.
 $validator->validate();
 ```
 
@@ -280,8 +280,8 @@ $validator->validate();
 If you want to validate elements of an array that you submited use dot notation in rules with '\*'
 
 ```php
-// say you have this array
-// array in request 'user_info'
+// Example input array:
+// The array is available in the request's user_info field.
 $request->validated()->user_info = [
     [
         'name' => 'Qasim',
@@ -333,10 +333,10 @@ Just define the property of `$redirect` or `$redirectRoute`.
 Link to docs
 
 ```php
-// The URI that users should be redirected to if validation fails./
+// Set the URI users should visit when validation fails.
 protected $redirect = '/dashboard';
 
-// The route that users should be redirected to if validation fails.
+// Set the route users should visit when validation fails.
 protected $redirectRoute = 'dashboard';
 ```
 

@@ -96,15 +96,15 @@ Did you know Laravel has a 'production' blade directive that you can use to show
 There is also another 'env' directive that you can use to show data in the environment you specify.
 ```blade
 @production
-     // I am only visible to the production environment...
+     // This value is available only in production.
 @endproduction
 
 @env('staging')
-     // I am only visible to the staging environment...
+     // This value is available only in staging.
 @endenv
 
 @env(['staging', 'production'])
-     // I am only visible to both the staging and production environment...
+     // This value is available in staging and production.
 @endenv
 ```
 
@@ -139,10 +139,10 @@ public function allowed_user_can_delete_task()
      $this->deleteJson($task->path())
           ->assertNoContent();
 
-     // Instead of assertDatabaseMissing to check if the model missing from the database
+     // Verify deletion with assertModelMissing instead of asserting against the table.
      $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
 
-     // use directly assertModelMissing
+     // Assert directly that the model no longer exists.
      $this->assertModelMissing($task);
 }
 ```
@@ -311,8 +311,8 @@ $userCondition = function ($query) {
     $query->where('user_id', auth()->id());
 };
 
-// Get articles that have comments from this user
-// And return only those comments from this user
+// Retrieve articles commented on by this user.
+// Include only comments written by this user.
 $articles = Article::with(['comments' => $userCondition])
     ->whereHas('comments', $userCondition)
     ->get();
@@ -338,10 +338,10 @@ public function store(Request $request)
 In pagination, if you want to have just "Previous/next" links instead of all the page numbers (and have fewer DB queries because of that), just change `paginate()` to `simplePaginate()`:
 
 ```php
-// Instead of
+// Previous approach:
 $users = User::paginate(10);
 
-// You can do this
+// Recommended approach:
 $users = User::simplePaginate(10);
 ```
 
@@ -512,10 +512,10 @@ rescue(function () {
 Here we are checking if there is a per_page (or any other parameter) value then we will use it, otherwise, we will use a default one.
 
 ```php
-// Isteand of this
+// Previous approach:
 $perPage = request()->per_page ? request()->per_page : 20;
 
-// You can do this
+// Recommended approach:
 $perPage = request('per_page', 20);
 ```
 
@@ -573,25 +573,25 @@ $request->has('popular') // true
 ### There are multiple ways to return a view with variables
 
 ```php
-// First way ->with()
+// Option 1: Use with().
 return view('index')
     ->with('projects', $projects)
     ->with('tasks', $tasks)
 
-// Second way - as an array
+// Option 2: Pass an array.
 return view('index', [
         'projects' => $projects,
         'tasks' => $tasks
     ]);
 
-// Third way - the same as second, but with variable
+// Option 3: Pass the array through a variable.
 $data = [
     'projects' => $projects,
     'tasks' => $tasks
 ];
 return view('index', $data);
 
-// Fourth way - the shortest - compact()
+// Option 4: Use compact() for a concise array.
 return view('index', compact('projects', 'tasks'));
 ```
 
@@ -637,7 +637,7 @@ class MigrationsTest extends TestCase
 {
     public function test_successful_foreign_key_in_migrations()
     {
-        // We just test if the migrations succeeds or throws an exception
+        // Verify that the migrations complete without throwing an exception.
         $this->expectNotToPerformAssertions();
 
 
@@ -687,12 +687,12 @@ Str::lowerSnake('MyString');
 If you are running Laravel `v8.70`, you can chain `can()` method directly instead of `middleware('can:..')`
 
 ```php
-// instead of
+// Previous approach:
 Route::get('users/{user}/edit', function (User $user) {
     ...
 })->middleware('can:edit,user');
 
-// you can do this
+// Recommended approach:
 Route::get('users/{user}/edit', function (User $user) {
     ...
 })->can('edit' 'user');
@@ -919,9 +919,9 @@ You can simplify it with the `whenFilled()` helper.
 public function store(Request $request)
 {
     $request->whenFilled('status', function (string $status)) {
-        // Do something amazing with the status here!
+        // Handle the provided status here.
     }, function () {
-        // This it called when status is not filled
+        // This callback runs when the status is not provided.
     });
 }
 ```
@@ -957,14 +957,14 @@ class VerifyLicense
 If you need to grab something from the Laravel session, then forget it immediately, consider using `session()->pull($value)`. It completes both steps for you.
 
 ```php
-// Before
+// Previous approach:
 $path = session()->get('before-github-redirect', '/components');
 
 session()->forget('before-github-redirect');
 
 return redirect($path);
 
-// After
+// Updated approach:
 return redirect(session()->pull('before-github-redirect', '/components'))
 ```
 
@@ -997,12 +997,12 @@ $employees = Employee::paginate(10)->through(fn ($employee) => [
 There’s a `withToken` method to attach the `Authorization` header to a request.
 
 ```php
-// Booo!
+// Less efficient approach:
 Http::withHeader([
     'Authorization' => 'Bearer dQw4w9WgXcq'
 ])
 
-// YES!
+// More efficient approach:
 Http::withToken('dQw4w9WgXcq');
 ```
 
@@ -1039,10 +1039,10 @@ Do you know about `has`, `exists` and `missing` methods in Laravel session?
 // The has method returns true if the item is present & not null.
 $request->session()->has('key');
 
-// THe exists method returns true if the item ir present, event if its value is null
+// exists() returns true when the key is present, including when its value is null.
 $request->session()->exists('key');
 
-// THe missing method returns true if the item is not present or if the item is null
+// missing() returns true when the key is absent or its value is null.
 $request->session()->missing('key');
 ```
 
@@ -1083,7 +1083,7 @@ Tracking something like page views with MySQL can be quite a performance hit whe
 ```php
 Route::get('{project:slug', function (Project $project) {
     // Instead of $project->increment('views') we use Redis
-    // We group the views by the project id
+    // Group the view counts by project ID.
     Redis::hincrby('project-views', $project->id, 1);
 })
 ```
@@ -1093,7 +1093,7 @@ Route::get('{project:slug', function (Project $project) {
 $schedule->command(UpdateProjectViews::class)->daily();
 
 // Console/Commands/UpdateProjectViews.php
-// Get all views from our Redis instance
+// Retrieve all project view counts from Redis.
 $views = Redis::hgetall('project-views');
 
 /*
@@ -1105,13 +1105,13 @@ $views = Redis::hgetall('project-views');
 ]
  */
 
-// Loop through all project views
+// Iterate over each project's view count.
 foreach ($views as $projectId => $projectViews) {
-    // Increment the project views on our MySQL table
+    // Update the project view totals in MySQL.
     Project::find($projectId)->increment('views', $projectViews);
 }
 
-// Delete all the views from our Redis instance
+// Clear the processed view counts from Redis.
 Redis::del('project-views');
 ```
 
@@ -1232,10 +1232,10 @@ You can specify what to do if a scheduled task fails or succeeds.
 $schedule->command('emails:send')
         ->daily()
         ->onSuccess(function () {
-            // The task succeeded
+            // Handle a successful task.
         })
         ->onFailure(function () {
-            // The task failed
+            // Handle a failed task.
         });
 ```
 
@@ -1244,12 +1244,12 @@ $schedule->command('emails:send')
 Running Laravel scheduled command on specific environments.
 
 ```php
-// Not good
+// Less efficient approach:
 if (app()->environment('production', 'staging')) {
     $schedule->command('emails:send')
         ->daily();
 }
-// Better
+// Recommended approach:
 $schedule->command('emails:send')
         ->daily()
         ->onEnvironment(['production', 'staging']);
@@ -1287,7 +1287,7 @@ class MyController extends Controller
 {
     public function __invoke(MyRequest $request, MyService $service)
     {
-        // Not good
+        // Less efficient approach:
         $service->addParam($request->param);
 
         if ($request->has('something')) {
@@ -1297,7 +1297,7 @@ class MyController extends Controller
         $service->execute();
         // ---
 
-        // Better
+        // Recommended approach:
         $service->addParam($request->param)
             ->when($request->has('something'), fn ($service) => $service->methodToBeCalled())
             ->execute();

@@ -233,15 +233,15 @@ class ProductTag extends Model
 For `belongsTo` relationship, instead of passing parent's ID when creating child record, use `hasMany` relationship to make a shorter sentence.
 
 ```php
-// if Post -> belongsTo(User), and User -> hasMany(Post)...
-// Then instead of passing user_id...
+// Given that Post belongs to User and User has many posts:
+// Instead of assigning user_id manually:
 Post::create([
     'user_id' => auth()->id(),
     'title' => request()->input('title'),
     'post_text' => request()->input('post_text'),
 ]);
 
-// Do this
+// Recommended approach:
 auth()->user()->posts()->create([
     'title' => request()->input('title'),
     'post_text' => request()->input('post_text'),
@@ -277,7 +277,7 @@ foreach ($podcasts as $podcast) {
 If you have a `belongsTo()` relationship, you can update the Eloquent relationship data in the same sentence:
 
 ```php
-// if Project -> belongsTo(User::class)
+// The Project model belongs to User:
 $project->user->update(['email' => 'some@gmail.com']);
 ```
 
@@ -358,7 +358,7 @@ class RoleUser extends Pivot
     }
 }
 
-// Then, in Controller, you can do:
+// In a controller, access the related records like this:
 $firstTeam = auth()->user()->roles()->first()->pivot->team->name;
 ```
 
@@ -371,7 +371,7 @@ In addition to Eloquent's `withCount()` method to count related records, you can
 $book = Book::first();
 
 $book->loadCount('reviews');
-// Then you get access to $book->reviews_count;
+// The model now exposes the reviews_count attribute.
 
 // Or even with extra condition
 $book->loadCount(['reviews' => function ($query) {
@@ -441,12 +441,12 @@ class TournamentsController extends Controller
 Released in Laravel 8.57: a shorter way to write whereHas() with a simple condition inside.
 
 ```php
-// Before
+// Previous approach:
 User::whereHas('posts', function ($query) {
     $query->where('published_at', '>', now());
 })->get();
 
-// After
+// Updated approach:
 User::whereRelation('posts', 'published_at', '>', now())->get();
 ```
 

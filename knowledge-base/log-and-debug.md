@@ -41,10 +41,10 @@ class OrderController
 Instead of doing `dd($result)` you can put `->dd()` as a method directly at the end of your Eloquent sentence, or any Collection.
 
 ```php
-// Instead of
+// Previous approach:
 $users = User::where('name', 'Taylor')->get();
 dd($users);
-// Do this
+// Recommended approach:
 $users = User::where('name', 'Taylor')->get()->dd();
 ```
 
@@ -117,7 +117,7 @@ public function boot()
         // Log the event class
         error_log($event);
 
-        // Log the event data delegated to listener parameters
+        // Log the event data passed to the listener.
         error_log(json_encode($data, JSON_PRETTY_PRINT));
     });
 }

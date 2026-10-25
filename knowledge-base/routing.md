@@ -156,7 +156,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('tasks', [Admin\TasksController::class]);
 });
 
-// Some more routes....
+// Define additional routes here.
 Route::fallback(function() {
     return 'Hm, why did you land here somehow?';
 });
@@ -193,7 +193,7 @@ Route::middleware('auth:api', 'throttle:60,1')->group(function () {
 But also, you can do it separately for public and for logged-in users:
 
 ```php
-// maximum of 10 requests for guests, 60 for authenticated users
+// Allow up to 10 requests for guests and 60 for authenticated users.
 Route::middleware('throttle:10|60,1')->group(function () {
     //
 });
@@ -244,7 +244,7 @@ Then, in `routes/auth.php`:
 ```php
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-// ... more controllers
+// Add additional controllers here.
 
 use Illuminate\Support\Facades\Route;
 
@@ -255,7 +255,7 @@ Route::get('/register', [RegisteredUserController::class, 'create'])
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest');
 
-// ... A dozen more routes
+// Add the remaining routes here.
 ```
 
 But you should use this `include()` only when that separate route file has the same settings for prefix/middlewares, otherwise it's better to group them in `app/Providers/RouteServiceProvider`:
@@ -275,7 +275,7 @@ public function boot()
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
 
-        // ... Your routes file listed next here
+        // Include the routes defined later in this file.
     });
 }
 ```
@@ -416,7 +416,7 @@ class AccountController extends Controller
         $confirmDeleteUrl = URL::signedRoute('confirm-destroy', [
             $user => $request->user()
         ]);
-        // Send link by email...
+        // Send a confirmation link by email.
     }
 
     public function confirmDestroy(Request $request, User $user)
@@ -425,7 +425,7 @@ class AccountController extends Controller
             abort(403);
         }
 
-        // User confirmed by clicking on the email
+        // The user confirms the action by following the email link.
         $user->delete();
 
         return redirect()->route('home');
@@ -441,7 +441,7 @@ To do this, you just need to put inside the `can:` and the names of the necessar
 
 ```php
 Route::put('/post/{post}', function (Post $post) {
-    // The current user may update the post...
+    // The current user is authorized to update the post.
 })->middleware('can:update,post');
 ```
 
@@ -452,7 +452,7 @@ You can use php arrow function in routing, without having to use anonymous funct
 To do this, you can use `fn() =>`, it looks easier.
 
 ```php
-// Instead of
+// Previous approach:
 Route::get('/example', function () {
     return User::all();
 });
@@ -466,7 +466,7 @@ Route::get('/example', fn () => User::all());
 You can use `Route::view($uri , $bladePage)` to return a view directly, without having to use controller function.
 
 ```php
-//this will return home.blade.php view
+// This returns the home.blade.php view.
 Route::view('/home', 'home');
 ```
 
@@ -563,13 +563,13 @@ Route::get('/posts/{post}', function (Post $post) {
 If for some reason, your URL is having query parameters, you can retrieve the URL without query parameters using the `fullUrlWithoutQuery` method of request like so.
 
 ```php
-// Original URL: https://www.amitmerchant.com?search=laravel&lang=en&sort=desc
+// Example input URL: https://www.amitmerchant.com?search=laravel&lang=en&sort=desc
 $urlWithQueryString = $request->fullUrlWithoutQuery([
     'lang',
     'sort'
 ]);
 echo $urlWithQueryString;
-// Outputs: https://www.amitmerchant.com?search=laravel
+// Example output URL: https://www.amitmerchant.com?search=laravel
 ```
 
 ### Customizing Missing Model Behavior in route model bindings
@@ -597,12 +597,12 @@ Route::post('/some/route', SomeController::class)
 Instead of using the controller in each route, consider using a route controller group. Added to Laravel since v8.80
 
 ```php
-// Before
+// Previous approach:
 Route::get('users', [UserController::class, 'index']);
 Route::post('users', [UserController::class, 'store']);
 Route::get('users/{user}', [UserController::class, 'show']);
 Route::get('users/{user}/ban', [UserController::class, 'ban']);
-// After
+// Updated approach:
 Route::controller(UsersController::class)->group(function () {
     Route::get('users', 'index');
     Route::post('users', 'store');

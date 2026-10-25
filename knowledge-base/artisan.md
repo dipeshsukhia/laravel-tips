@@ -5,15 +5,15 @@
 When creating Artisan command, you can ask the input in variety of ways: `$this->confirm()`, `$this->anticipate()`, `$this->choice()`.
 
 ```php
-// Yes or no?
+// Prompt for a yes-or-no response.
 if ($this->confirm('Do you wish to continue?')) {
     //
 }
 
-// Open question with auto-complete options
+// Prompt with autocomplete options.
 $name = $this->anticipate('What is your name?', ['Taylor', 'Dayle']);
 
-// One of the listed options with default index
+// Select an option by its default index.
 $name = $this->choice('What is your name?', ['Taylor', 'Dayle'], $defaultIndex);
 ```
 
