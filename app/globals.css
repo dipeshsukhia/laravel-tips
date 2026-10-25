@@ -30,6 +30,8 @@ button, input, select { font: inherit; }
 .sidebar-toggle:focus-visible { outline: 2px solid #5ca878; outline-offset: 3px; }
 .sidebar-toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .sidebar-toggle[aria-expanded="true"] svg path { transform: rotate(180deg); transform-origin: 14px 11px; }
+.sidebar-mobile-icon { display: none; }
+.sidebar-backdrop { display: none; }
 .topbar-actions { display: flex; align-items: center; gap: 9px; }
 .theme-toggle { display: grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border: 1px solid #dfe7e1; border-radius: 9px; color: #526158; background: #fff; cursor: pointer; transition: color .15s, background .15s, border-color .15s; }
 .theme-toggle:hover { color: #15593b; background: #f0f7f1; border-color: #b7d4bf; }
@@ -192,11 +194,16 @@ button, input, select { font: inherit; }
   .topbar { height: 58px; padding: 0 16px; }
   .topbar-note { display: none; }
   .app-shell { display: block; min-height: calc(100vh - 58px); }
-  .sidebar { position: static; height: auto; overflow-x: auto; padding: 9px 12px; border-right: 0; border-bottom: 1px solid var(--line); }
-  .sidebar-label,.sidebar-card { display: none; }
-  .category-nav { width: max-content; flex-direction: row; gap: 4px; }
-  .nav-link { min-height: 32px; padding: 7px 9px; white-space: nowrap; }
-  .nav-count { display: none; }
+  .sidebar-toggle { width: 38px; height: 38px; }
+  .sidebar-desktop-icon { display: none; }
+  .sidebar-mobile-icon { display: block; }
+  .sidebar-backdrop { display: block; position: fixed; z-index: 25; inset: 58px 0 0; width: 100%; border: 0; background: rgb(8 16 11 / 42%); }
+  .sidebar { position: fixed; z-index: 26; top: 58px; bottom: 0; left: 0; width: min(320px, 86vw); height: auto; overflow-x: hidden; overflow-y: auto; padding: 20px 14px 24px; border-right: 1px solid var(--line); border-bottom: 0; box-shadow: 14px 12px 32px rgb(13 31 21 / 16%); }
+  .sidebar-label { display: block; margin: 0 0 12px 9px; }
+  .sidebar-card { display: none; }
+  .category-nav { width: auto; flex-direction: column; gap: 3px; }
+  .nav-link { min-height: 40px; padding: 8px 10px; white-space: normal; }
+  .nav-count { display: block; }
   .main-content { padding: 29px 16px 24px; }
   .hero { margin: 13px auto 36px; padding: 30px 23px; border-radius: 13px; }
   .hero:before { top: -112px; right: -55px; }
