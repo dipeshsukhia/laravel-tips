@@ -37,7 +37,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
             <span className="category-count-pill">{String(category.tips.length).padStart(2, "0")} TIPS</span>
           </div>
           <TipExplorer tips={category.tips} categories={categories} initialCategory={category.slug} />
-          <SiteFooter actionHref="/laravel-tips/" actionLabel="Browse all topics ↗" />
+          <SiteFooter actionHref="/" actionLabel="Browse all topics ↗" />
         </main>
       </div>
     </>
