@@ -30,6 +30,7 @@ const preferredContentOrder = [
   "artisan.md",
   "factories.md",
   "log-and-debug.md",
+  "reliability-and-performance.md",
   "api.md",
   "other.md",
 ];

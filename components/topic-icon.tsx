@@ -12,6 +12,7 @@ const paths: Record<string, React.ReactNode> = {
   artisan: <><path d="M14 7 7 14l-3 1-1 4 4-1 1-3 7-7M14 7l3-3 4 4-3 3M5 19l-1 1" /></>,
   factories: <><path d="M3 21V9l6 3V9l6 3V5l6 3v13H3Z" /><path d="M7 17h2m3 0h2m3 0h2" /></>,
   "log-and-debug": <><path d="M8 5H5v14h3M16 5h3v14h-3M14 9l-4 6M10 9h.01M14 15h.01" /></>,
+  "reliability-and-performance": <><path d="M3 13h4l3-8 4 14 3-6h4" /><circle cx="10" cy="5" r="1" /><circle cx="14" cy="19" r="1" /></>,
   api: <><path d="m8 5-6 7 6 7M16 5l6 7-6 7M14 3l-4 18" /></>,
   other: <><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z" /><path d="m19 14 1.2 2.8L23 18l-2.8 1.2L19 22l-1.2-2.8L15 18l2.8-1.2L19 14Z" /></>,
 };
