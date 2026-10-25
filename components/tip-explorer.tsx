@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Category, Tip } from "@/lib/content";
 
@@ -13,6 +14,7 @@ export function TipExplorer({
   categories: Category[];
   initialCategory?: string;
 }) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState(initialCategory ?? "all");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +37,14 @@ export function TipExplorer({
     });
   }, [tips, query, category]);
 
+  function handleCategoryChange(value: string) {
+    if (initialCategory) {
+      router.push(value === "all" ? "/all-tips/" : `/${value}/`);
+      return;
+    }
+    setCategory(value);
+  }
+
   return (
     <>
       <div className="explorer-tools">
@@ -43,7 +53,7 @@ export function TipExplorer({
           <input ref={inputRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search tips, concepts, code…" aria-label="Search tips" />
           <kbd>⌘ K</kbd>
         </label>
-        <select aria-label="Filter by category" value={category} onChange={(event) => setCategory(event.target.value)}>
+        <select className="topic-filter" aria-label="Filter by category" value={category} onChange={(event) => handleCategoryChange(event.target.value)}>
           <option value="all">All categories</option>
           {categories.map((item) => <option key={item.slug} value={item.slug}>{item.title}</option>)}
         </select>
