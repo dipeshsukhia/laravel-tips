@@ -33,6 +33,7 @@ button, input, select { font: inherit; }
 .source-link span { margin-left: 4px; color: var(--green); }
 
 .app-shell { display: grid; grid-template-columns: 260px minmax(0,1fr); max-width: 1600px; min-height: calc(100vh - 68px); margin: 0 auto; background: var(--paper); }
+.home-shell { grid-template-columns: minmax(0,1fr); }
 .sidebar { position: sticky; top: 68px; height: calc(100vh - 68px); overflow: auto; padding: 28px 17px 24px 22px; background: #fbfcfb; border-right: 1px solid var(--line); }
 .sidebar-label, .section-kicker { margin: 0 0 12px; color: #8a978e; font: 650 9px/1.4 var(--mono); letter-spacing: .12em; }
 .category-nav { display: flex; flex-direction: column; gap: 3px; }

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { CategorySidebar } from "@/components/category-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { getAllTips, getCategories } from "@/lib/content";
@@ -11,8 +10,7 @@ export default function HomePage() {
   return (
     <>
       <SiteHeader />
-      <div className="app-shell">
-        <CategorySidebar categories={categories} />
+      <div className="app-shell home-shell">
         <main className="main-content">
           <div className="eyebrow"><span className="eyebrow-line" /> THE LARAVEL FIELD GUIDE <span className="eyebrow-line" /></div>
           <section className="hero">
