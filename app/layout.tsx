@@ -15,6 +15,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-theme="dark">
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1156764432689204"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <SidebarProvider>{children}</SidebarProvider>
         <BackToTop />
