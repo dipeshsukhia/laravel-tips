@@ -173,6 +173,7 @@ button, input, select { font: inherit; }
 
 @media (max-width: 1120px) {
   .app-shell { grid-template-columns: 225px minmax(0,1fr); }
+  .home-shell { grid-template-columns: minmax(0,1fr); }
   .sidebar { padding-left: 15px; padding-right: 13px; }
   .main-content { padding-right: 4vw; padding-left: 4vw; }
   .tip-row-category { display: none; }
