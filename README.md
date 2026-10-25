@@ -4,6 +4,8 @@
 
 A searchable collection of 358 Laravel tips across 14 categories. The site renders the Markdown files in `knowledge-base/` as static pages, with searchable tip lists and copyable code snippets.
 
+Browse the [knowledge base](knowledge-base/) to view the source Markdown files by category.
+
 ## Run locally
 
 ```bash
