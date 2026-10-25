@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://dipeshsukhia.github.io/laravel-tips/sitemap.xml

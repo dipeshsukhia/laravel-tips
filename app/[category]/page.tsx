@@ -14,7 +14,18 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category: slug } = await params;
   const category = getCategory(slug);
-  return category ? { title: `${category.title} tips`, description: `${category.tips.length} practical Laravel tips about ${category.title}.` } : {};
+  if (!category) return {};
+  const title = `${category.title} tips`;
+  const description = `Explore ${category.tips.length} practical Laravel tips for ${category.title}, with clear examples and copyable PHP code.`;
+  const url = `/laravel-tips/${category.slug}/`;
+  return {
+    title,
+    description,
+    alternates: { canonical: url },
+    keywords: [`Laravel ${category.title}`, `${category.title} examples`, "Laravel tips"],
+    openGraph: { type: "website", url, title: `${title} | Laravel Tips`, description },
+    twitter: { card: "summary", title: `${title} | Laravel Tips`, description },
+  };
 }
 
 export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
@@ -29,6 +40,21 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <div className="app-shell">
         <CategorySidebar categories={categories} active={category.slug} />
         <main className="main-content inner-page">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                name: `${category.title} tips`,
+                description: `A collection of ${category.tips.length} practical Laravel ${category.title.toLowerCase()} tips.`,
+                url: `https://dipeshsukhia.github.io/laravel-tips/${category.slug}/`,
+                isPartOf: { "@type": "WebSite", name: "Laravel Tips", url: "https://dipeshsukhia.github.io/laravel-tips/" },
+                about: { "@type": "Thing", name: `Laravel ${category.title}` },
+                inLanguage: "en",
+              }).replace(/</g, "\\u003c"),
+            }}
+          />
           <div className="breadcrumb"><Link href="/">All tips</Link><span>/</span><span>{category.title}</span></div>
           <div className="category-hero">
             <p className="section-kicker">TOPIC COLLECTION</p>

@@ -14,7 +14,24 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string; slug: string }> }): Promise<Metadata> {
   const { category, slug } = await params;
   const tip = getTip(category, slug);
-  return tip ? { title: tip.title, description: tip.description } : {};
+  if (!tip) return {};
+  const url = `/laravel-tips/${tip.categorySlug}/${tip.slug}/`;
+  const description = tip.description;
+  return {
+    title: tip.title,
+    description,
+    alternates: { canonical: url },
+    keywords: [tip.title, `Laravel ${tip.category.toLowerCase()}`, "Laravel tips", "PHP examples"],
+    openGraph: {
+      type: "article",
+      url,
+      title: `${tip.title} | Laravel Tips`,
+      description,
+      section: tip.category,
+      authors: ["https://dipeshsukhia.github.io/"],
+    },
+    twitter: { card: "summary", title: `${tip.title} | Laravel Tips`, description },
+  };
 }
 
 export default async function TipPage({ params }: { params: Promise<{ category: string; slug: string }> }) {
@@ -35,6 +52,24 @@ export default async function TipPage({ params }: { params: Promise<{ category: 
         <main className="main-content inner-page article-page">
           <div className="breadcrumb"><Link href="/">All tips</Link><span>/</span><Link href={`/${category.slug}/`}>{category.title}</Link><span>/</span><span>Tip {String(index + 1).padStart(2, "0")}</span></div>
           <article>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "TechArticle",
+                  headline: tip.title,
+                  description: tip.description,
+                  url: `https://dipeshsukhia.github.io/laravel-tips/${category.slug}/${tip.slug}/`,
+                  mainEntityOfPage: `https://dipeshsukhia.github.io/laravel-tips/${category.slug}/${tip.slug}/`,
+                  articleSection: category.title,
+                  inLanguage: "en",
+                  author: { "@type": "Person", name: "Dipesh Sukhia", url: "https://dipeshsukhia.github.io/" },
+                  publisher: { "@type": "Person", name: "Dipesh Sukhia", url: "https://dipeshsukhia.github.io/" },
+                  isPartOf: { "@type": "WebSite", name: "Laravel Tips", url: "https://dipeshsukhia.github.io/laravel-tips/" },
+                }).replace(/</g, "\\u003c"),
+              }}
+            />
             <div className="article-heading">
               <Link className="article-category" href={`/${category.slug}/`}>{category.title}<span aria-hidden="true"> ↗</span></Link>
               <span className="article-index">TIP {String(index + 1).padStart(2, "0")} / {String(category.tips.length).padStart(2, "0")}</span>

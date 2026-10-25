@@ -77,9 +77,29 @@ function professionalTitle(value: string) {
     .replace(/\bBlade-X\b/gi, "Blade X");
 }
 
-function professionalDescription(title: string, category: string) {
-  const categoryName = category.toLowerCase() === "api" ? "API" : category.toLowerCase();
-  return `This ${categoryName} guide covers ${title} in Laravel, with clear implementation guidance and practical examples for your application.`;
+function professionalDescription(title: string, category: string, markdown: string) {
+  const paragraphs = markdown
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/~~~[\s\S]*?~~~/g, " ")
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph
+      .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+      .replace(/[`*_>#~]/g, " ")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim())
+    .filter(Boolean);
+
+  let summary = paragraphs[0] || `Practical Laravel guidance for ${title.toLowerCase()}, with examples and copyable PHP code.`;
+  if (summary.length < 90 && paragraphs[1]) summary += ` ${paragraphs[1]}`;
+  summary = summary.replace(/[\s,;:]+$/g, "");
+  if (summary.length > 160) {
+    const excerpt = summary.slice(0, 157);
+    const lastWord = excerpt.lastIndexOf(" ");
+    summary = `${excerpt.slice(0, lastWord > 100 ? lastWord : 157).trimEnd()}…`;
+  }
+  return summary;
 }
 
 function isTipHeading(line: string) {
@@ -107,7 +127,7 @@ function readCategory(filename: string): Category {
       ? `${baseSlug}-${tips.length + 1}`
       : baseSlug;
     const polishedTitle = professionalTitle(currentTitle);
-    tips.push({ title: polishedTitle, slug, category: title, categorySlug, description: professionalDescription(polishedTitle, title), markdown, searchableText: searchableText(markdown) });
+    tips.push({ title: polishedTitle, slug, category: title, categorySlug, description: professionalDescription(polishedTitle, title, markdown), markdown, searchableText: searchableText(markdown) });
   };
 
   for (const line of lines) {
