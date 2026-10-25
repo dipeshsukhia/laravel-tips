@@ -21,7 +21,7 @@ export function SidebarToggle() {
         <path d="M9 4v16m5-11 2 2-2 2" />
       </svg>
       <svg className="sidebar-mobile-icon" viewBox="0 0 24 24" aria-hidden="true">
-        {isOpen ? <path d="m6 6 12 12M18 6 6 18" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
+        {isOpen ? <path d="M6 6 18 18M18 6 6 18" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
       </svg>
     </button>
   );
