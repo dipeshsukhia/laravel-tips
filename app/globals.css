@@ -431,6 +431,7 @@ body { font-size: 15px; }
 :root[data-theme="light"] .category-hero>p:not(.section-kicker) { color: #526459; }
 :root[data-theme="light"] .category-count-pill { color: #31583c; background: #eaf4ec; border-color: #d0e3d4; }
 :root[data-theme="light"] .article-heading { border-color: #dce6de; }
+:root[data-theme="light"] .article-page article { max-width: 920px; padding: 30px 42px 8px; border: 1px solid #dfe8e1; border-radius: 18px; background: #fff; box-shadow: 0 14px 36px #1b362410; }
 :root[data-theme="light"] .article-index { color: #617267; }
 :root[data-theme="light"] .article-category { color: #187346; }
 :root[data-theme="light"] .article-rule { background: #dce6de; }
@@ -441,6 +442,24 @@ body { font-size: 15px; }
 :root[data-theme="light"] .markdown-body h4,:root[data-theme="light"] .markdown-body h3 { color: #1d3225; }
 :root[data-theme="light"] .markdown-body blockquote { color: #526459; border-color: #6aa879; }
 :root[data-theme="light"] .markdown-body :not(pre)>code { color: #245c39; background: #edf5ef; border-color: #d8e7db; }
+:root[data-theme="light"] .code-frame { border-color: #d6e1d8; background: #f6f8f6; box-shadow: 0 4px 14px #1b36240a; }
+:root[data-theme="light"] .code-toolbar { color: #5a6e60; background: #edf3ee; border-color: #d9e3db; }
+:root[data-theme="light"] .copy-button { color: #315640; background: #fff; border-color: #cbdccd; }
+:root[data-theme="light"] .copy-button:hover { color: #174b2c; background: #f2f8f3; border-color: #83b58d; }
+:root[data-theme="light"] .code-frame pre { color: #26352b; }
+:root[data-theme="light"] .code-frame .hljs { color: #26352b; background: #f6f8f6; }
+:root[data-theme="light"] .code-frame .hljs-doctag,:root[data-theme="light"] .code-frame .hljs-keyword,:root[data-theme="light"] .code-frame .hljs-meta .hljs-keyword,:root[data-theme="light"] .code-frame .hljs-template-tag,:root[data-theme="light"] .code-frame .hljs-template-variable,:root[data-theme="light"] .code-frame .hljs-type,:root[data-theme="light"] .code-frame .hljs-variable.language_ { color: #cf222e; }
+:root[data-theme="light"] .code-frame .hljs-title,:root[data-theme="light"] .code-frame .hljs-title.class_,:root[data-theme="light"] .code-frame .hljs-title.function_ { color: #8250df; }
+:root[data-theme="light"] .code-frame .hljs-attr,:root[data-theme="light"] .code-frame .hljs-attribute,:root[data-theme="light"] .code-frame .hljs-literal,:root[data-theme="light"] .code-frame .hljs-meta,:root[data-theme="light"] .code-frame .hljs-number,:root[data-theme="light"] .code-frame .hljs-operator,:root[data-theme="light"] .code-frame .hljs-variable,:root[data-theme="light"] .code-frame .hljs-selector-class,:root[data-theme="light"] .code-frame .hljs-selector-id { color: #0550ae; }
+:root[data-theme="light"] .code-frame .hljs-regexp,:root[data-theme="light"] .code-frame .hljs-string,:root[data-theme="light"] .code-frame .hljs-meta .hljs-string { color: #0a3069; }
+:root[data-theme="light"] .code-frame .hljs-built_in,:root[data-theme="light"] .code-frame .hljs-symbol { color: #953800; }
+:root[data-theme="light"] .code-frame .hljs-comment,:root[data-theme="light"] .code-frame .hljs-code,:root[data-theme="light"] .code-frame .hljs-formula { color: #6e7781; }
+:root[data-theme="light"] .code-frame .hljs-name,:root[data-theme="light"] .code-frame .hljs-quote,:root[data-theme="light"] .code-frame .hljs-selector-tag,:root[data-theme="light"] .code-frame .hljs-selector-pseudo { color: #116329; }
+:root[data-theme="light"] .code-frame .hljs-subst,:root[data-theme="light"] .code-frame .hljs-emphasis,:root[data-theme="light"] .code-frame .hljs-strong { color: #26352b; }
+:root[data-theme="light"] .code-frame .hljs-section { color: #0550ae; }
+:root[data-theme="light"] .code-frame .hljs-bullet { color: #953800; }
+:root[data-theme="light"] .code-frame .hljs-addition { color: #116329; background-color: #dafbe1; }
+:root[data-theme="light"] .code-frame .hljs-deletion { color: #82071e; background-color: #ffebe9; }
 :root[data-theme="light"] .article-pagination { border-color: #dce6de; }
 :root[data-theme="light"] .page-step span { color: #64756a; }
 :root[data-theme="light"] .page-step strong { color: #33463a; }
@@ -449,3 +468,7 @@ body { font-size: 15px; }
 :root[data-theme="light"] .not-found { color: #19271e; }
 :root[data-theme="light"] .not-found p { color: #526459; }
 :root[data-theme="light"] .not-found a { color: #187346; }
+
+@media (max-width: 720px) {
+  :root[data-theme="light"] .article-page article { padding: 22px 17px 6px; border-radius: 14px; }
+}
